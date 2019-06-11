@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+    <script>
+      var mousePositions = [];
+      var timeStamps = [];
+      let preClicked = true;
+      let timeStart;
+      let playbackPosition = 0;
+
+      let a, b;
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        a = new robot([windowWidth/3, windowHeight/2], 1);
+        b = new robot([windowWidth*2/3, windowHeight/2], -1);
+
+      }
+
+
+      class robot {
+        constructor(position, direction) {
+          this.position = position;
+          this.angle = 0;
+          this.endPosition = position;
+          this.direction = direction;
+        }
+        update(){
+          this.angle += random() * 20 * this.direction;
+          this.endPosition = rotatePoint(this.position[0], this.position[1], this.position[0], this.position[1]+300, this.angle);
+        }
+      }
+
+      //function calcularLi
+      function rotatePoint(cx, cy, x, y, angle) {
+          var radians = (Math.PI / 180) * angle,
+              cos = Math.cos(radians),
+              sin = Math.sin(radians),
+              nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+              ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+          return [nx, ny];
+      }
+
+
+
+      function draw() {
+        background(255);
+        a.update();
+        b.update();
+
+        line(a.position[0], a.position[1], a.endPosition[0], a.endPosition[1]);
+        line(b.position[0], b.position[1], b.endPosition[0], b.endPosition[1]);
+        line(a.endPosition[0], a.endPosition[1], b.endPosition[0], b.endPosition[1]);
+      }
+
+
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

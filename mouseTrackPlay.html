@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+    <script>
+      var mousePositions = [];
+      var timeStamps = [];
+      let preClicked = true;
+      let timeStart;
+      let playbackPosition = 0;
+
+      function setup() {
+        createCanvas(displayWidth, displayHeight);
+
+      }
+
+      function draw() {
+        if(preClicked){
+          recordMousePosition();
+        }else{
+          playRecordedMouse();
+        }
+      }
+      function playRecordedMouse(){
+        let _currentPosition = mousePositions[playbackPosition];
+        if(playbackPosition == mousePositions.length){
+          timeStart = millis();
+          playbackPosition = 0;
+        }
+        if(timeStamps[playbackPosition] < millis()){
+          _currentPosition = mousePositions[playbackPosition++];
+        }
+        console.log(playbackPosition);
+        ellipse(_currentPosition[0], _currentPosition[1], 50, 50);
+      }
+      function recordMousePosition(){
+        mousePositions.push([mouseX, mouseY]);
+        timeStamps.push(millis());
+      }
+      function mousePressed(event) {
+        timeStart = millis();
+        preClicked = false;
+        console.log("mousePressed");
+      }
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
